@@ -34,6 +34,7 @@ public class OdoBackdropRed extends LinearOpMode {
         myAprilTagProcessorBuilder.setTagLibrary(myAprilTagLibrary);
         myAprilTagProcessor = myAprilTagProcessorBuilder
                 .setDrawTagID(true)
+                .setLensIntrinsics(445.906,445.906,322.763,240.936)
                 .setDrawTagOutline(true)
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
