@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.CameraTest;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
@@ -24,6 +25,9 @@ public class OdoBackdropRed extends LinearOpMode {
 
     private DcMotor armMotor;
     private Servo clawServo;
+
+    //the red frog is named Charles
+    private String Charles;
     public void runOpMode() throws InterruptedException {
 
         AprilTagProcessor.Builder myAprilTagProcessorBuilder;
@@ -61,13 +65,19 @@ public class OdoBackdropRed extends LinearOpMode {
 
         Drive drive = new Drive(hardwareMap, 12, -61, Math.PI / 2);
         Arm arm = new Arm(hardwareMap);
+        CameraTest cam = new CameraTest();
 
         waitForStart();
         if(opModeIsActive()) {
 
             Actions.runBlocking(
                     new SequentialAction(
-                            drive.redBackdrop(),
+                            drive.redDecision(),
+                            drive.redMiddleBack(),
+                            if (Charles == "LEFT")
+
+                    }
+
                             arm.extend(),
                             arm.clawOpen()
                     )
