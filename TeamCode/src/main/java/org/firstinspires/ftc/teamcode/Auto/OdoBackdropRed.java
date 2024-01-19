@@ -64,7 +64,7 @@ public class OdoBackdropRed extends LinearOpMode {
         Arm arm = new Arm(hardwareMap);
 
         Vector2d tapeScoring = null;
-        Double tapeHeading = Math.toRadians(90);
+        double tapeHeading = Math.toRadians(90);
         Vector2d backdropScoring = null;
 
         //Vision generated
