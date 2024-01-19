@@ -22,8 +22,8 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Red Backdrop", preselectTeleOp = "Final2023")
-public class OdoBackdropRed extends LinearOpMode {
+@Autonomous(name = "Blue Backdrop", preselectTeleOp = "Final2023")
+public class OdoBackdropBlue extends LinearOpMode {
 
     private PropPipeline propPipeline;
     private Location propPlacement;
@@ -58,31 +58,31 @@ public class OdoBackdropRed extends LinearOpMode {
                 .setAutoStopLiveView(true)
                 .build();
 
-        Globals.ALLIANCE = Location.RED;
+        Globals.ALLIANCE = Location.BLUE;
 
-        Drive drive = new Drive(hardwareMap, 12, -61, Math.toRadians(90));
+        Drive drive = new Drive(hardwareMap, 12, 61, Math.toRadians(270));
         Arm arm = new Arm(hardwareMap);
 
         Vector2d tapeScoring = null;
-        Double tapeHeading = Math.toRadians(90);
+        Double tapeHeading = Math.toRadians(270);
         Vector2d backdropScoring = null;
 
         //Vision generated
         switch (propPlacement) {
             case LEFT:
-                tapeScoring = new Vector2d(6,-34);
-                tapeHeading = Math.toRadians(135);
-                backdropScoring = new Vector2d(48,-30);
+                tapeScoring = new Vector2d(18,34);
+                tapeHeading = Math.toRadians(315);
+                backdropScoring = new Vector2d(48,42);
                 break;
             case CENTER:
-                tapeScoring = new Vector2d(12,-30);
-                tapeHeading = Math.toRadians(90);
-                backdropScoring = new Vector2d(48,-36);
+                tapeScoring = new Vector2d(12,30);
+                tapeHeading = Math.toRadians(270);
+                backdropScoring = new Vector2d(48,36);
                 break;
             case RIGHT:
-                tapeScoring = new Vector2d(18,-30);
-                tapeHeading = Math.toRadians(45);
-                backdropScoring = new Vector2d(48,-42);
+                tapeScoring = new Vector2d(6,34);
+                tapeHeading = Math.toRadians(225);
+                backdropScoring = new Vector2d(48,30);
                 break;
             default:
                 break;

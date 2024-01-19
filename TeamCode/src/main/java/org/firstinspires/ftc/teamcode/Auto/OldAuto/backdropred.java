@@ -1,12 +1,15 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Auto.OldAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "backdropblue (Blocks to Java)", group = "left", preselectTeleOp = "Final2023")
-public class backdropblue extends LinearOpMode {
+//Undisable if you want to use code
+@Disabled
+@Autonomous(name = "backdropred (Blocks to Java)", group = "left", preselectTeleOp = "Final2023")
+public class backdropred extends LinearOpMode {
 
   private Servo clawServo;
   private DcMotor rightBack;
@@ -14,7 +17,6 @@ public class backdropblue extends LinearOpMode {
   private DcMotor armMotor;
   private DcMotor leftFront;
   private DcMotor leftBack;
- 
 
   /**
    * This function is executed when this OpMode is selected from the Driver Station.
@@ -38,13 +40,13 @@ public class backdropblue extends LinearOpMode {
       while (opModeIsActive()) {
         // Put loop blocks here.
         armMotor.setPower(-0.5);
-        sleep(1975);
+        sleep(2050);
         armMotor.setPower(0.01);
         leftFront.setPower(0.4);
         rightBack.setPower(0.4);
         leftBack.setPower(0.4);
         rightFront.setPower(0.4);
-        sleep(1920);
+        sleep(1850);
         armMotor.setPower(0.01);
         rightBack.setPower(0);
         leftBack.setPower(0);
@@ -52,11 +54,11 @@ public class backdropblue extends LinearOpMode {
         rightFront.setPower(0);
         sleep(100);
         armMotor.setPower(0.01);
-        leftFront.setPower(0.3);
-        rightBack.setPower(-0.3);
-        leftBack.setPower(0.3);
-        rightFront.setPower(-0.3);
-        sleep(2300);
+        leftFront.setPower(-0.3);
+        rightBack.setPower(0.3);
+        leftBack.setPower(-0.3);
+        rightFront.setPower(0.3);
+        sleep(2150);
         armMotor.setPower(0.01);
         leftFront.setPower(0.4);
         rightBack.setPower(0.4);
@@ -67,6 +69,7 @@ public class backdropblue extends LinearOpMode {
         rightFront.setPower(0);
         rightBack.setPower(0);
         leftBack.setPower(0);
+        sleep(1000);
         clawServo.setPosition(1);
         sleep(400);
         rightBack.setPower(-0.2);
@@ -74,13 +77,13 @@ public class backdropblue extends LinearOpMode {
         leftFront.setPower(-0.2);
         rightFront.setPower(-0.2);
         sleep(1000);
-        rightBack.setPower(-0.3);
-        leftBack.setPower(0.3);
-        leftFront.setPower(-0.3);
-        rightFront.setPower(0.3);
-        sleep(3500);
         rightBack.setPower(0.3);
-        leftBack.setPower(0.3);
+        leftBack.setPower(-0.3);
+        leftFront.setPower(0.3);
+        rightFront.setPower(-0.3);
+        sleep(3300);
+        leftFront.setPower(0.3);
+        rightFront.setPower(0.3);
         leftFront.setPower(0.3);
         rightFront.setPower(0.3);
         sleep(600);
