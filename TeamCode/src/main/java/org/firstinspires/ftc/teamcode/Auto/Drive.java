@@ -29,7 +29,7 @@ public class Drive {
         beginPose = new Pose2d(posX, posY, posHeading);
         drive = new MecanumDrive(hardwareMap, beginPose);
     }
-    public Action redMiddleBack(){
+    public Action redBackdrop(){
         return new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket){
@@ -38,22 +38,9 @@ public class Drive {
                                 .lineToY(-30)
                                 .lineToY(-37)
                                 .turn(Math.toRadians(90))
-                                .lineToX(45.25)
+                                .lineToX(49)
                                 .build()
                 );
-                return false;
-            }
-        };
-    }
-    public Action redDecision(){
-        return new Action(){
-            @Override
-            public boolean run(@NonNull TelemetryPacket telemetryPacket){
-                Actions.runBlocking(
-                        drive.actionBuilder(drive.pose)
-                                .lineToY(-45)
-                                .build()
-                ) ;
                 return false;
             }
         };

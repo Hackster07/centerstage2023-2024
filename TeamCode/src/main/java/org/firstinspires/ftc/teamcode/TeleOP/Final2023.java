@@ -55,6 +55,7 @@ public class Final2023 extends LinearOpMode {
     double speed = 1;
     //sets to forward mode (claw in front)
     double direction = 1;
+
     if (opModeIsActive()) {
       while (opModeIsActive()) {
         //forward and backward (negative because of the way our wheels are laid out)

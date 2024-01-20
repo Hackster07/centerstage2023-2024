@@ -1,10 +1,13 @@
-package org.firstinspires.ftc.teamcode.Auto;
+package org.firstinspires.ftc.teamcode.Auto.OldAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+//Undisable if you want to use code
+@Disabled
 @Autonomous(name = "spikecenter (Blocks to Java)", group = "left", preselectTeleOp = "Final2023")
 public class spikecenter extends LinearOpMode {
 
