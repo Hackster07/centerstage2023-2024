@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.processor;
 
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
@@ -15,7 +17,6 @@ import org.opencv.imgproc.Imgproc;
 
 public class PropPipelineTest implements VisionProcessor {
     private static final boolean DEBUG = false;
-
     private static String location = "RIGHT";
     private static String alliance = "RED";
     private static String side = "FAR";
@@ -23,23 +24,23 @@ public class PropPipelineTest implements VisionProcessor {
 
     private final Mat hsv = new Mat();
 
-    public static int redLeftX = (int) (815 / 1.5);
-    public static int redLeftY = (int) (550 / 1.5);
+    public static int redLeftX = 165;
+    public static int redLeftY = 140;
 
-    public static int redCenterX = (int) (1365 / 1.5);
-    public static int redCenterY = (int) (475 / 1.5);
+    public static int redCenterX = 00;
+    public static int redCenterY = 00;
 
-    public static int blueLeftX = (int) (240 / 1.5);
-    public static int blueLeftY = (int) (525 / 1.5);
+    public static int blueLeftX = 0;
+    public static int blueLeftY = 0;
 
-    public static int blueCenterX = (int) (925 / 1.5);
-    public static int blueCenterY = (int) (485 / 1.5);
+    public static int blueCenterX = 0;
+    public static int blueCenterY = 0;
 
-    public static int leftWidth = (int) (175 / 1.5);
-    public static int leftHeight = (int) (100 / 1.5);
+    public static int leftWidth = 100;
+    public static int leftHeight = 50;
 
-    public static int centerWidth = (int) (125 / 1.5);
-    public static int centerHeight = (int) (125 / 1.5);
+    public static int centerWidth = 5;
+    public static int centerHeight = 5;
 
     public static double BLUE_TRESHOLD = 70;
     public static double RED_TRESHOLD = 100;
@@ -49,6 +50,9 @@ public class PropPipelineTest implements VisionProcessor {
 
     public Scalar left = new Scalar(0, 0, 0);
     public Scalar center = new Scalar(0, 0, 0);
+
+    Rect leftZoneArea;
+    Rect centerZoneArea;
 
     Telemetry telemetry;
 
@@ -69,8 +73,7 @@ public class PropPipelineTest implements VisionProcessor {
 
     @Override
     public Object processFrame(Mat frame, long captureTimeNanos) {
-        Rect leftZoneArea;
-        Rect centerZoneArea;
+
 
         if (alliance == "RED" && side == "FAR" || alliance == "BLUE" && side == "CLOSE") {
             leftZoneArea = new Rect(redLeftX, redLeftY, leftWidth, leftHeight);
@@ -128,9 +131,41 @@ public class PropPipelineTest implements VisionProcessor {
         return null;
     }
 
+    private android.graphics.Rect makeGraphicsRect(Rect rect) {
+        int left = Math.round(rect.x);
+        int top = Math.round(rect.y);
+        int right = left + Math.round(rect.width);
+        int bottom = top + Math.round(rect.height);
+
+        return new android.graphics.Rect(left, top, right, bottom);
+    }
     @Override
     public void onDrawFrame(Canvas canvas, int onscreenWidth, int onscreenHeight, float scaleBmpPxToCanvasPx, float scaleCanvasDensity, Object userContext) {
+        Paint selectedPaint = new Paint();
+        selectedPaint.setColor(Color.RED);
+        selectedPaint.setStyle(Paint.Style.STROKE);
+        selectedPaint.setStrokeWidth(scaleCanvasDensity * 4);
 
+        Paint nonSelectedPaint = new Paint(selectedPaint);
+        nonSelectedPaint.setColor(Color.GREEN);
+
+        android.graphics.Rect drawRectangleLeft = makeGraphicsRect(leftZoneArea);
+        android.graphics.Rect drawRectangleMiddle = makeGraphicsRect(centerZoneArea);
+
+        switch (location) {
+            case "LEFT":
+                canvas.drawRect(drawRectangleLeft, selectedPaint);
+                canvas.drawRect(drawRectangleMiddle, nonSelectedPaint);
+                break;
+            case "MIDDLE":
+                canvas.drawRect(drawRectangleLeft, nonSelectedPaint);
+                canvas.drawRect(drawRectangleMiddle, selectedPaint);
+                break;
+            case "RIGHT":
+                canvas.drawRect(drawRectangleLeft, nonSelectedPaint);
+                canvas.drawRect(drawRectangleMiddle, nonSelectedPaint);
+                break;
+        }
     }
 
     public String getLocation() {

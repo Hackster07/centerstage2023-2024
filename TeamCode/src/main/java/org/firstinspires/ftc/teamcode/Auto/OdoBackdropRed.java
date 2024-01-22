@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Auto.RobotBodyParts.Arm;
 import org.firstinspires.ftc.teamcode.Auto.RobotBodyParts.Drive;
-import org.firstinspires.ftc.teamcode.processor.PropPipeline;
+import org.firstinspires.ftc.teamcode.processor.RealPropPipeline;
 import org.firstinspires.ftc.teamcode.stuff.Globals;
 import org.firstinspires.ftc.teamcode.stuff.Location;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -25,7 +25,7 @@ import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 @Autonomous(name = "Red Backdrop", preselectTeleOp = "Final2023")
 public class OdoBackdropRed extends LinearOpMode {
 
-    private PropPipeline propPipeline;
+    private RealPropPipeline propPipeline;
     private Location propPlacement;
 
     public void runOpMode() throws InterruptedException {
@@ -48,11 +48,12 @@ public class OdoBackdropRed extends LinearOpMode {
                 .setTrackerMinSize(16)
                 .build();
 
+        propPipeline = new RealPropPipeline();
         VisionPortal myVisionPortal = new VisionPortal.Builder()
                 .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 //Change processors
                 .addProcessors(propPipeline)
-                .setCameraResolution(new Size(1280, 720))
+                .setCameraResolution(new Size(640, 480))
                 .setStreamFormat(VisionPortal.StreamFormat.MJPEG)
                 .enableLiveView(true)
                 .setAutoStopLiveView(true)
@@ -63,9 +64,22 @@ public class OdoBackdropRed extends LinearOpMode {
         Drive drive = new Drive(hardwareMap, 12, -61, Math.toRadians(90));
         Arm arm = new Arm(hardwareMap);
 
+        while (myVisionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
+            telemetry.addLine("initializing... please wait");
+            telemetry.update();
+        }
+
+        while (opModeInInit()) {
+            telemetry.addLine("ready");
+            telemetry.addData("position", propPipeline.getLocation());
+            telemetry.update();
+        }
+
         Vector2d tapeScoring = null;
         double tapeHeading = Math.toRadians(90);
         Vector2d backdropScoring = null;
+
+        propPlacement = propPipeline.getLocation();
 
         //Vision generated
         switch (propPlacement) {
