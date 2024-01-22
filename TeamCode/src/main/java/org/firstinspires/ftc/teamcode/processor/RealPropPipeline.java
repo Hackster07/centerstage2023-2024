@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.stuff.Location;
 import org.firstinspires.ftc.vision.VisionProcessor;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -12,11 +14,21 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-    public class RedPropThreshold implements VisionProcessor {
-        public Rect rectLeft = new Rect(0, 0, 210, 480);
-        public Rect rectMiddle = new Rect(210, 0, 220, 480);
-        public Rect rectRight = new Rect(430, 0, 210, 480);
-        Selected selection = Selected.NONE;
+    public class RealPropPipeline implements VisionProcessor {
+
+        public RealPropPipeline() {
+            this(null);
+        }
+
+        public RealPropPipeline(Telemetry telemetry) {
+            this.telemetry = telemetry;
+        }
+        public Rect rectLeft = new Rect(85, 200, 75, 75);
+        public Rect rectMiddle = new Rect(275, 190, 75, 75);
+        public Rect rectRight = new Rect(465, 200, 75, 75);
+        private volatile Location location = Location.RIGHT;
+
+        Telemetry telemetry;
 
         Mat submat = new Mat();
         Mat hsvMat = new Mat();
@@ -34,11 +46,21 @@ import org.opencv.imgproc.Imgproc;
             double satRectRight = getAvgSaturation(hsvMat, rectRight);
 
             if ((satRectLeft > satRectMiddle) && (satRectLeft > satRectRight)) {
-                return Selected.LEFT;
+                location = Location.LEFT;
             } else if ((satRectMiddle > satRectLeft) && (satRectMiddle > satRectRight)) {
-                return Selected.MIDDLE;
+                location = Location.CENTER;
+            }else {
+                location = Location.RIGHT;
             }
-            return Selected.RIGHT;
+
+            if (telemetry != null) {
+                telemetry.addData("leftColor", satRectLeft);
+                telemetry.addData("centerColor", satRectMiddle);
+                telemetry.addData("rightColor", satRectRight);
+                telemetry.addData("analysis", location.toString());
+                telemetry.update();
+            }
+            return location;
         }
         protected double getAvgSaturation(Mat input, Rect rect) {
             submat = input.submat(rect);
@@ -70,14 +92,13 @@ import org.opencv.imgproc.Imgproc;
             android.graphics.Rect drawRectangleMiddle = makeGraphicsRect(rectMiddle, scaleBmpPxToCanvasPx);
             android.graphics.Rect drawRectangleRight = makeGraphicsRect(rectRight, scaleBmpPxToCanvasPx);
 
-            selection = (Selected) userContext;
-            switch (selection) {
+            switch (location) {
                 case LEFT:
                     canvas.drawRect(drawRectangleLeft, selectedPaint);
                     canvas.drawRect(drawRectangleMiddle, nonSelectedPaint);
                     canvas.drawRect(drawRectangleRight, nonSelectedPaint);
                     break;
-                case MIDDLE:
+                case CENTER:
                     canvas.drawRect(drawRectangleLeft, nonSelectedPaint);
                     canvas.drawRect(drawRectangleMiddle, selectedPaint);
                     canvas.drawRect(drawRectangleRight, nonSelectedPaint);
@@ -87,15 +108,10 @@ import org.opencv.imgproc.Imgproc;
                     canvas.drawRect(drawRectangleMiddle, nonSelectedPaint);
                     canvas.drawRect(drawRectangleRight, selectedPaint);
                     break;
-                case NONE:
-                    canvas.drawRect(drawRectangleLeft, nonSelectedPaint);
-                    canvas.drawRect(drawRectangleMiddle, nonSelectedPaint);
-                    canvas.drawRect(drawRectangleRight, nonSelectedPaint);
-                    break;
                 }
             }
-            public Selected getSelection() {
-                return selection;
+            public Location getLocation() {
+                return location;
             }
             public enum Selected {
                 NONE,
