@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.stuff.PIDController;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -59,6 +61,26 @@ public class Arm {
 
                 return armMotor.getCurrentPosition() >= -2200;
 
+            }
+        };
+    }
+    public Action extendPID(){
+        return new Action(){
+
+            PIDController control = new PIDController(0.6,1.2,0.075);
+
+            @Override
+            public boolean run(@NonNull TelemetryPacket telemetryPacket){
+
+                armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+                double command = control.update(-2281,armMotor.getCurrentPosition());
+
+                // assign motor the PID output
+                armMotor.setPower(command);
+
+                return armMotor.getCurrentPosition() >= -2281;
             }
         };
     }
