@@ -20,13 +20,9 @@ import org.firstinspires.ftc.teamcode.processor.RealPropPipeline;
 import org.firstinspires.ftc.teamcode.stuff.Globals;
 import org.firstinspires.ftc.teamcode.stuff.Location;
 import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
-import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Blue Backdrop", preselectTeleOp = "Final2023")
-public class OdoBackdropBlue extends LinearOpMode {
+@Autonomous(name = "Auto Testing")
+public class AutoTest extends LinearOpMode {
 
     private RealPropPipeline propPipeline;
     private Location propPlacement;
@@ -109,27 +105,8 @@ public class OdoBackdropBlue extends LinearOpMode {
             Actions.runBlocking(
                     //"SEQUENTIAL ACTION" RUNS ALL COMMANDS ONE AT A TIME
                     new SequentialAction(
-                            //CALLS "TAPEPIXEL" METHOD IN "DRIVE.JAVA" CLASS
-                            //FEEDS IT TWO VARIABLES: THE TARGET TAPE POSITION AND HOW MUCH TO ROTATE
-                            drive.tapePixel(tapeScoring,tapeHeading),
-                            //WAITS 2 SECONDS
-                            new SleepAction(1),
-                            //"PARALLEL ACTION" DOES BOTH ACTIONS AT THE SAME TIME
-                            new ParallelAction(
-                                    //DRIVES TO BACKDROP USING "TOBACKDROP" METHOD IN "DRIVE.JAVA"
-                                    drive.toBackdrop(backdropScoring),
-                                    //EXTENDS ARM USING "EXTEND" METHOD IN "ARM.JAVA"
-                                    arm.extend()
-                            ),
-                            //WAITS FOR .5 SECONDS
-                            new SleepAction(.5),
-                            //OPENS CLAW USING "CLAWOPEN" METHOD IN "ARM.JAVA"
-                            arm.clawOpen(),
-                            //WAITS 1 SECOND
-                            new SleepAction(1),
-                            //PARKS AT THE SIDE USING "TOBACKPARK" METHOD IN "DRIVE.JAVA"
-                            drive.toBackPark()
-
+                            new SleepAction(4),
+                            arm.extendPID(-2000)
                     )
             );
             TelemetryPacket packet = new TelemetryPacket();

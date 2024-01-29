@@ -5,6 +5,7 @@ import static java.lang.Thread.sleep;
 
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -34,7 +35,7 @@ public class Arm {
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
                 clawServo.setPosition(1.0);
-                return true;
+                return false;
             }
         };
     }
@@ -64,7 +65,7 @@ public class Arm {
             }
         };
     }
-    public Action extendPID(){
+    public Action extendPID(int target){
         return new Action(){
 
             PIDController control = new PIDController(0.6,1.2,0.075);
@@ -75,12 +76,15 @@ public class Arm {
                 armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-                double command = control.update(-2281,armMotor.getCurrentPosition());
+                double command = control.update(target,armMotor.getCurrentPosition());
 
                 // assign motor the PID output
                 armMotor.setPower(command);
+                telemetryPacket.put("Power of arm:", command);
+                telemetryPacket.put("Position of arm:", armMotor.getCurrentPosition());
+                FtcDashboard.getInstance().sendTelemetryPacket(telemetryPacket);
 
-                return armMotor.getCurrentPosition() >= -2281;
+                return armMotor.getCurrentPosition() >= target;
             }
         };
     }

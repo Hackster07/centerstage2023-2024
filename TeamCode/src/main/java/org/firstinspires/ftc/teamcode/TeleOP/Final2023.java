@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.TeleOP;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -43,6 +45,7 @@ public class Final2023 extends LinearOpMode {
 
   private void rotate() {
     waitForStart();
+
     /*puts the plane servo into loaded position. the range makes sure that
     it does not turn a full 180*/
     planeServo.setPosition(0.47);
@@ -58,6 +61,8 @@ public class Final2023 extends LinearOpMode {
 
     if (opModeIsActive()) {
       while (opModeIsActive()) {
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        TelemetryPacket packet1 = new TelemetryPacket();
         //forward and backward (negative because of the way our wheels are laid out)
         double y = -gamepad1.left_stick_y*direction;
         //rotation
@@ -116,7 +121,9 @@ public class Final2023 extends LinearOpMode {
                 armMotor.getCurrentPosition());
         telemetry.addData("Claw currently at",  " at %7f",
                 clawServo.getPosition());
+        packet1.fieldOverlay();
         telemetry.update();
+        dashboard.sendTelemetryPacket(packet1);
       }
     }
   }
