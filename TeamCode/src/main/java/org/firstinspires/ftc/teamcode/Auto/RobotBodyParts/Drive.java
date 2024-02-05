@@ -57,7 +57,7 @@ public class Drive {
                                         //GOES STRAIGHT TO Y=48
                                         .lineToY(48)
                                         .splineTo(tape,header)
-                                        .lineToY(36)
+                                        .lineToY(35)
                                         .build());
                         break;
                     default:
@@ -71,6 +71,7 @@ public class Drive {
     public Pose2d getPose (){
         return drive.pose;
     }
+
     public Action toBackdrop(Vector2d backdrop){
         return new Action(){
             @Override

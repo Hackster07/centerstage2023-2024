@@ -22,7 +22,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
-@Autonomous(name = "Red Backdrop", preselectTeleOp = "Final2023")
+@Autonomous(name = "Red Backdrop", preselectTeleOp = "ActualFinalCode")
 public class OdoBackdropRed extends LinearOpMode {
 
     private RealPropPipeline propPipeline;
@@ -86,17 +86,17 @@ public class OdoBackdropRed extends LinearOpMode {
             case LEFT:
                 tapeScoring = new Vector2d(6,-34);
                 tapeHeading = Math.toRadians(135);
-                backdropScoring = new Vector2d(48,-30);
+                backdropScoring = new Vector2d(48,-31);
                 break;
             case CENTER:
                 tapeScoring = new Vector2d(12,-30);
                 tapeHeading = Math.toRadians(90);
-                backdropScoring = new Vector2d(48,-36);
+                backdropScoring = new Vector2d(48,-37);
                 break;
             case RIGHT:
                 tapeScoring = new Vector2d(18,-30);
                 tapeHeading = Math.toRadians(45);
-                backdropScoring = new Vector2d(48,-42);
+                backdropScoring = new Vector2d(48,-43);
                 break;
             default:
                 break;
@@ -107,6 +107,7 @@ public class OdoBackdropRed extends LinearOpMode {
             Actions.runBlocking(
                     new SequentialAction(
                             drive.tapePixel(tapeScoring,tapeHeading),
+                            new SleepAction(1),
                             new ParallelAction(
                                     drive.toBackdrop(backdropScoring),
                                     arm.extend()

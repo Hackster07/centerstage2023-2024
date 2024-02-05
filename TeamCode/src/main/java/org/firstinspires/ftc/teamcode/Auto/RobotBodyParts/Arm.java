@@ -18,7 +18,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Arm {
     private DcMotorEx armMotor;
-    private Servo clawServo;
+    private Servo leftClawServo;
+    private Servo rightClawServo;
     private Telemetry telemetry;
 
 
@@ -26,15 +27,15 @@ public class Arm {
 
     public Arm(HardwareMap hardwareMap){
         armMotor = hardwareMap.get(DcMotorEx.class, "armMotor");
-        clawServo = hardwareMap.get(Servo.class, "clawServo");
-        clawServo.setPosition(0.8);
+        leftClawServo = hardwareMap.get(Servo.class, "leftClawServo");
+        leftClawServo.setPosition(0);
     }
 
     public Action clawOpen(){
         return new Action(){
             @Override
             public boolean run(@NonNull TelemetryPacket telemetryPacket) {
-                clawServo.setPosition(1.0);
+                leftClawServo.setPosition(0.25);
                 return false;
             }
         };

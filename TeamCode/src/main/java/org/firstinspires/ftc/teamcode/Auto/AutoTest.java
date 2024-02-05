@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.processor.RealPropPipeline;
 import org.firstinspires.ftc.teamcode.stuff.Globals;
 import org.firstinspires.ftc.teamcode.stuff.Location;
 import org.firstinspires.ftc.vision.VisionPortal;
-
+@Disabled
 @Autonomous(name = "Auto Testing")
 public class AutoTest extends LinearOpMode {
 
@@ -106,7 +107,7 @@ public class AutoTest extends LinearOpMode {
                     //"SEQUENTIAL ACTION" RUNS ALL COMMANDS ONE AT A TIME
                     new SequentialAction(
                             new SleepAction(4),
-                            arm.extendPID(-2000)
+                            arm.clawOpen()
                     )
             );
             TelemetryPacket packet = new TelemetryPacket();

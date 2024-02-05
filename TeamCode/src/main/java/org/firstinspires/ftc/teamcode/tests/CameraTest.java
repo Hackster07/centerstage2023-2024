@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.RAWW.RealPropPipelineTest;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 @Autonomous()
-@Disabled
 public class CameraTest extends OpMode {
     private RealPropPipelineTest visionProcessor;
     private VisionPortal visionPortal;
